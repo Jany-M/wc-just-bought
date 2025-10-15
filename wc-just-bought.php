@@ -2,11 +2,11 @@
 /**
  * Plugin Name: WC Just Bought
  * Plugin URI: https://github.com/jany-m/wc-just-bought
- * Description: Displays a discrete popup in the bottom right corner of the site, showing latest 10 WooCommerce purchases with customer initials, country, product details, and time since purchase. The popup is not configurable (no options or customizations), just activate it to make it work. To customize it, you can override the CSS in your theme or use custom JavaScript or contact info@shambix.com for a quote.
+ * Description: Displays a discrete popup in the bottom right corner of the site, showing latest 10 WooCommerce purchases with customer initials, country, product details, and time since purchase. The popup is not configurable (no options or customizations), contact info@shambix.com for a quote.
  * Version: 1.0.0
  * Author: Shambix
  * Author URI: https://www.shambix.com
- * License: GPL v2 or later
+ * License: GPLv2 or later
  * License URI: https://www.gnu.org/licenses/gpl-2.0.html
  * Domain Path: /languages
  * Text Domain: wc-just-bought
@@ -44,7 +44,7 @@ function wc_just_bought_check_woocommerce() {
 function wc_just_bought_woocommerce_notice() {
     ?>
     <div class="error">
-        <p><?php _e('WC Just Bought requires WooCommerce to be installed and activated.', 'wc-just-bought'); ?></p>
+        <p><?php esc_html_e('WC Just Bought requires WooCommerce to be installed and activated.', 'wc-just-bought'); ?></p>
     </div>
     <?php
 }
@@ -173,7 +173,8 @@ function wc_just_bought_add_popup_html() {
 function wc_just_bought_get_orders() {
     try {
         // Verify nonce
-        if (!isset($_POST['nonce']) || !wp_verify_nonce($_POST['nonce'], 'wc_just_bought_nonce')) {
+        $nonce = isset($_POST['nonce']) ? sanitize_text_field( wp_unslash( $_POST['nonce'] ) ) : '';
+        if ( empty( $nonce ) || ! wp_verify_nonce( $nonce, 'wc_just_bought_nonce' ) ) {
             wp_send_json_error(array('message' => 'Invalid nonce'));
             return;
         }
@@ -270,7 +271,17 @@ function wc_just_bought_get_orders() {
                 );
             } catch (Exception $e) {
                 // Skip this order if there's an error processing it
-                error_log('WC Just Bought: Error processing order ID ' . $order->get_id() . ': ' . $e->getMessage());
+                if ( function_exists( 'wc_get_logger' ) ) {
+                    $logger = wc_get_logger();
+                    $logger->error(
+                        sprintf(
+                            'WC Just Bought: Error processing order ID %d: %s',
+                            is_object( $order ) && method_exists( $order, 'get_id' ) ? $order->get_id() : 0,
+                            $e->getMessage()
+                        ),
+                        array( 'source' => 'wc-just-bought' )
+                    );
+                }
                 continue;
             }
         }
@@ -300,18 +311,23 @@ function wc_just_bought_time_ago($timestamp) {
         return __('Just now', 'wc-just-bought');
     } elseif ($time_ago < 3600) {
         $minutes = floor($time_ago / 60);
+        /* translators: %s: number of minutes */
         return sprintf(_n('%s minute ago', '%s minutes ago', $minutes, 'wc-just-bought'), $minutes);
     } elseif ($time_ago < 86400) {
         $hours = floor($time_ago / 3600);
+        /* translators: %s: number of hours */
         return sprintf(_n('%s hour ago', '%s hours ago', $hours, 'wc-just-bought'), $hours);
     } elseif ($time_ago < 604800) {
         $days = floor($time_ago / 86400);
+        /* translators: %s: number of days */
         return sprintf(_n('%s day ago', '%s days ago', $days, 'wc-just-bought'), $days);
     } elseif ($time_ago < 2592000) {
         $weeks = floor($time_ago / 604800);
+        /* translators: %s: number of weeks */
         return sprintf(_n('%s week ago', '%s weeks ago', $weeks, 'wc-just-bought'), $weeks);
     } else {
         $months = floor($time_ago / 2592000);
+        /* translators: %s: number of months */
         return sprintf(_n('%s month ago', '%s months ago', $months, 'wc-just-bought'), $months);
     }
 }

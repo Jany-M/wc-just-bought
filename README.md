@@ -1,4 +1,4 @@
-# WC Just Bought - WordPress Plugin
+# WC Just Bought
 
 A WordPress plugin that displays a popup notification in the bottom-right corner showing recent WooCommerce purchases. The popup cycles through the latest 10 orders, showing customer initials with dots, country flags, product name and image (both clickable), and how long ago the purchase was made.
 
@@ -10,7 +10,7 @@ A WordPress plugin that displays a popup notification in the bottom-right corner
 - 🔗 Clickable product names and images that open in new tabs
 - 📦 Shows product name and image
 - ⏰ Displays time elapsed since purchase (e.g., "2 hours ago", "3 days ago")
-- 🔄 Automatically cycles through the latest 20 orders
+- 🔄 Automatically cycles through the latest 10 orders
 - 📱 Fully responsive design
 - 🎨 Modern, sleek UI with smooth animations and hover effects
 - ⚡ Lightweight and performance-optimized
@@ -36,7 +36,7 @@ A WordPress plugin that displays a popup notification in the bottom-right corner
 
 ## How It Works
 
-1. The plugin fetches the latest 20 completed or processing orders from WooCommerce.
+1. The plugin fetches the latest 10 completed or processing orders from WooCommerce.
 2. Automatically filters out refund orders to prevent errors.
 3. For each order, it extracts:
    - Customer's first and last name initials (formatted with dots, e.g., "J.M.")
@@ -107,16 +107,7 @@ Key elements you can customize:
 
 ### Number of Orders
 
-To change the number of orders displayed, edit the limit in `wc-just-bought.php`:
-
-```php
-$args = array(
-    'limit' => 20, // Change this number
-    'status' => array('wc-completed', 'wc-processing'),
-    'type' => 'shop_order', // Filters out refunds
-    // ...
-);
-```
+To change the number of orders displayed, edit the `limit` argument in `wc-just-bought.php` (default is 10).
 
 ## Privacy Considerations
 
@@ -162,7 +153,7 @@ The plugin includes comprehensive error handling:
 ### Version 1.0.0
 - Initial release
 - Display recent WooCommerce purchases
-- Cycle through latest 20 orders
+- Cycle through latest 10 orders
 - Responsive design
 - Time ago functionality
 - Customer initials with dots formatting (e.g., "J.M.")
