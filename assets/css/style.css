@@ -1,0 +1,277 @@
+/* WC Just Bought Popup Styles */
+
+.wc-just-bought-popup {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 999999;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    animation: slideInUp 0.5s ease-out;
+}
+
+.wc-just-bought-popup.wc-just-bought-hidden {
+    animation: slideOutDown 0.5s ease-out;
+}
+
+.wc-just-bought-content {
+    background: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    padding: 16px;
+    min-width: 280px;
+    max-width: 420px;
+    display: flex;
+    gap: 12px;
+    position: relative;
+    transition: transform 0.3s ease;
+}
+
+.wc-just-bought-content:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.2);
+}
+
+.wc-just-bought-close {
+    position: absolute;
+    top: 0;
+    right: 8px;
+    background: transparent;
+    border: none;
+    font-size: 20px;
+    line-height: 1;
+    cursor: pointer;
+    color: #999;
+    padding: 4px 8px;
+    transition: color 0.2s ease;
+}
+
+.wc-just-bought-close:hover {
+    color: #333;
+}
+
+.wc-just-bought-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(255, 255, 255, 0.9);
+    border: 1px solid #ddd;
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    font-size: 24px;
+    line-height: 1;
+    cursor: pointer;
+    color: #666;
+    padding: 0;
+    transition: all 0.2s ease;
+    display: flex;
+    /*align-items: center;*/
+    justify-content: center;
+    z-index: 10;
+}
+
+.wc-just-bought-nav:hover {
+    background: #ffffff;
+    color: #333;
+    border-color: #999;
+    transform: translateY(-50%) scale(1.1);
+}
+
+.wc-just-bought-prev {
+    left: -20px;
+}
+
+.wc-just-bought-next {
+    right: -20px;
+}
+
+.wc-just-bought-image-link {
+    flex-shrink: 0;
+    text-decoration: none;
+    display: block;
+    transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.wc-just-bought-image-link:hover {
+    transform: scale(1.05);
+    opacity: 0.9;
+}
+
+.wc-just-bought-image {
+    width: 60px;
+    height: 60px;
+    border-radius: 6px;
+    overflow: hidden;
+    background: #f5f5f5;
+}
+
+.wc-just-bought-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.wc-just-bought-details {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    min-width: 0;
+    overflow: hidden;
+}
+
+.wc-just-bought-customer {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    flex-wrap: wrap;
+}
+
+.wc-just-bought-initials {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    /*min-width: 38px;*/
+    height: 28px;
+    /*padding: 0 6px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;*/
+    border-radius: 14px;
+    font-weight: 600;
+    font-size: 12px;
+    flex-shrink: 0;
+    letter-spacing: 0.5px;
+}
+
+.wc-just-bought-text {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    color: #666;
+    font-weight: 400;
+    flex-wrap: wrap;
+}
+
+.wc-just-bought-country {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-weight: 500;
+}
+
+.wc-just-bought-country-name {
+    white-space: nowrap;
+}
+
+.wc-just-bought-flag {
+    width: 18px;
+    height: 13px;
+    object-fit: cover;
+    border-radius: 2px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    flex-shrink: 0;
+}
+
+.wc-just-bought-product-link {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+    transition: opacity 0.2s ease;
+}
+
+.wc-just-bought-product-link:hover {
+    opacity: 0.7;
+}
+
+.wc-just-bought-product-link:hover .wc-just-bought-product-name {
+    color: #667eea;
+}
+
+.wc-just-bought-product-name {
+    font-size: 14px;
+    font-weight: 600;
+    color: #333;
+    line-height: 1.3;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+}
+
+.wc-just-bought-time {
+    font-size: 11px;
+    color: #999;
+    font-style: italic;
+}
+
+/* Animations */
+@keyframes slideInUp {
+    from {
+        transform: translateY(100px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideOutDown {
+    from {
+        transform: translateY(0);
+        opacity: 1;
+    }
+    to {
+        transform: translateY(100px);
+        opacity: 0;
+    }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .wc-just-bought-popup {
+        bottom: 10px;
+        right: 10px;
+        left: 10px;
+    }
+
+    .wc-just-bought-content {
+        max-width: 100%;
+        min-width: auto;
+    }
+
+    .wc-just-bought-nav {
+        width: 28px;
+        height: 28px;
+        font-size: 20px;
+    }
+
+    .wc-just-bought-prev {
+        left: -10px;
+    }
+
+    .wc-just-bought-next {
+        right: -10px;
+    }
+}
+
+/* Optional: Hide on very small screens */
+@media (max-width: 480px) {
+    .wc-just-bought-popup {
+        bottom: 10px;
+        right: 10px;
+        left: 10px;
+    }
+
+    .wc-just-bought-content {
+        padding: 12px;
+    }
+
+    .wc-just-bought-image {
+        width: 50px;
+        height: 50px;
+    }
+}
