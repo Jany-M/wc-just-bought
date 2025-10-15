@@ -152,17 +152,20 @@
         const formattedInitials = order.initials.split('').join('.') + '.';
         $popup.find('.wc-just-bought-initials').text(formattedInitials);
         
-        $popup.find('.wc-just-bought-country-name').text(order.country);
-
-        // Add country flag using flagcdn.com
+        // Prepare flag URL
+        let flagUrl = '';
         if (order.country_code) {
-            const flagUrl = `https://flagcdn.com/w40/${order.country_code}.png`;
-            const $flag = $popup.find('.wc-just-bought-flag');
-            $flag.attr({
-                'src': flagUrl,
-                'alt': order.country
-            }).on('error', function() {
-                // Hide flag if it fails to load
+            flagUrl = `https://flagcdn.com/w40/${order.country_code}.png`;
+        }
+
+        // Update translatable static text (from/bought) with flag
+        $popup.find('.wc-just-bought-text').html(
+            `${wcJustBought.i18n.from} <span class="wc-just-bought-country"><img class="wc-just-bought-flag" src="${flagUrl}" alt="" /><span class="wc-just-bought-country-name">${order.country}</span></span> ${wcJustBought.i18n.bought}`
+        );
+
+        // Handle flag error (hide if it fails to load)
+        if (flagUrl) {
+            $popup.find('.wc-just-bought-flag').on('error', function() {
                 $(this).hide();
             }).show();
         }
@@ -175,11 +178,6 @@
             'src': order.product_image,
             'alt': order.product_name
         });
-
-        // Update translatable static text (from/bought)
-        $popup.find('.wc-just-bought-text').html(
-            `${wcJustBought.i18n.from} <span class="wc-just-bought-country"><img class="wc-just-bought-flag" src="${flagUrl || ''}" alt="" /><span class="wc-just-bought-country-name">${order.country}</span></span> ${wcJustBought.i18n.bought}`
-        );
     }
 
     /**
